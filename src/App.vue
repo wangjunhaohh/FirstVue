@@ -10,7 +10,11 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
-
+<style lang="less">
+  //去掉白边
+html,body{
+  padding: 0;
+  margin: 0;
+}
 
 </style>

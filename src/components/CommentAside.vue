@@ -1,26 +1,26 @@
 <template>
-  <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-    <el-menu-item v-for="item in nochildren"  :index="item.path" :key="item.path">
+  <el-menu default-active="1-4-1" class="el-menu-vertical-demo" background-color="#545c64" text-color="#ffffff"
+           active-text-color="#ffd04b" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+    <h3>{{isCollapse ? '后台':'商品管理系统'}}</h3>
+    <el-menu-item @click="clickMenu(item)" v-for="item in noChildren"  :index="item.path" :key="item.path">
       <i :class="'el-icon-'+item.icon"></i>
       <span slot="title">{{item.label}}</span>
     </el-menu-item>
-    <el-submenu index="1">
+<!--    Invalid prop: type check failed for prop "index". Expected String, got Undefined
+        是需要一个String字符串类型的index数据，但是index数据类型不是，只需要 + ''拼接即可
+-->
+    <el-submenu  v-for="item in hasChildren " :index="item.path+''" :key="item.path">
+
       <template slot="title">
-        <i class="el-icon-location"></i>
-        <span slot="title">导航一</span>
+        <i :class="'el-icon-'+item.icon"></i>
+        <span slot="title">{{item.label}}</span>
       </template>
-      <el-menu-item-group>
-        <span slot="title">分组一</span>
-        <el-menu-item index="1-1">选项1</el-menu-item>
-        <el-menu-item index="1-2">选项2</el-menu-item>
+
+      <el-menu-item-group v-for="sub in item.children" :key="sub.path">
+        <el-menu-item :index="sub+''">{{sub.label}}</el-menu-item>
       </el-menu-item-group>
-      <el-menu-item-group title="分组2">
-        <el-menu-item index="1-3">选项3</el-menu-item>
-      </el-menu-item-group>
-      <el-submenu index="1-4">
-        <span slot="title">选项4</span>
-        <el-menu-item index="1-4-1">选项1</el-menu-item>
-      </el-submenu>
+
+
     </el-submenu>
   </el-menu>
 </template>
@@ -79,22 +79,40 @@
         },
           handleClose(key, keyPath) {
             console.log(key, keyPath);
-          }
+          },
+          clickMenu(item){
+            this.$router.push({
+              name:item.name,
+            })
+          },
         },
         computed:{
-          nochildren(){
+          noChildren(){
              return this.menu.filter(item=>!item.children)
           },
-          haschildren(){
+          hasChildren(){
             return this.menu.filter(item=>item.children)
+          },
+          isCollapse(){
+            return this.$store.state.tab.isCollapse
           }
         }
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
   .el-menu-vertical-demo:not(.el-menu--collapse){
     width: 200px;
     min-height: 400px;
+  }
+  .el-menu{
+    height: 100%;
+    border: none;
+    h3{
+      color: white;
+      text-align: center;
+      line-height: 48px;
+    }
+    height: 100vh;
   }
 </style>
