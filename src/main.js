@@ -5,11 +5,13 @@ import App from './App'
 
 
 import 'element-ui/lib/theme-chalk/index.css';
-import {button,Radio,Container,Header,Main,Aside,Menu,Submenu,MenuItem,MenuItemGroup,Dropdown,DropdownMenu,DropdownItem,Row,Card,Col} from "element-ui";
+import {button,Radio,Container,Header,Main,Aside,Menu,Submenu,MenuItem,Table,TableColumn,MenuItemGroup,Dropdown,DropdownMenu,DropdownItem,Row,Card,Col} from "element-ui";
 
 
 import router from './router'
 import store from "./store";
+import './assets/less/index.less'
+import http from 'axios'
 
 
 Vue.config.productionTip = false
@@ -29,6 +31,12 @@ Vue.use(DropdownMenu)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Card)
+Vue.use(TableColumn)
+Vue.use(Table)
+
+//axios不是一个插件，全局使用需要使用prototype
+Vue.prototype.$http = http
+
 new Vue({
   el: '#app',
   router,
